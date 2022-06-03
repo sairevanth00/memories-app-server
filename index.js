@@ -21,19 +21,25 @@ app.get('/', (req, res) =>{
 
 const PORT = process.env.PORT || 5100;
 
-// mongoose
-//   .connect(CONNECTION_URL)
-//   .then(() =>
-//     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)),
-//   )
-//   .catch((error) => console.log(error.message));
+// app.listen(process.env.PORT || 5100, "0.0.0.0", () => {
+//   console.log("Server is running.");
+// });
 
-try {
-  await mongoose.connect(process.env.CONNECTION_URL);
-  app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
-} catch (error) {
-  console.log(error.message);
-}
+mongoose
+  .connect(process.env.CONNECTION_URL)
+  .then(() =>
+    app.listen(PORT, "0.0.0.0", () =>
+      console.log(`Server running on port: ${PORT}`),
+    ),
+  )
+  .catch((error) => console.log(error.message));
+
+// try {
+//   await mongoose.connect(process.env.CONNECTION_URL);
+//   app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port: ${PORT}`));
+// } catch (error) {
+//   console.log(error.message);
+// }
 
 // mongoose.set("useFindAndModify", false);
 
