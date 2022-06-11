@@ -17,11 +17,13 @@ app.use(cors());
 
 app.use("/posts", postRoutes);
 app.use("/user", userRoutes);
+
 app.get("/", (req, res) => {
-  res.send("Hello to Memories API");
+  res.send("Hello to Memories this is Running successfully");
 });
-// const CONNECTION_URL =
-//   "mongodb+srv://revanthsai:revanthsai123@cluster0.rljvh55.mongodb.net/?retryWrites=true&w=majority";
+
+const CONNECTION_URL =
+  "mongodb+srv://sairevanth:sairevanth@cluster0.rljvh55.mongodb.net/?retryWrites=true&w=majority";
 
 const PORT = process.env.PORT || 5100;
 
@@ -29,21 +31,23 @@ const PORT = process.env.PORT || 5100;
 //   console.log("Server is running.");
 // });
 
-mongoose
-  .connect(process.env.CONNECTION_URL)
-  .then(() =>
-    app.listen(PORT, "0.0.0.0", () =>
-      console.log(`Server running on port: ${PORT}`),
-    ),
-  )
-  .catch((error) => console.log(error.message));
+// mongoose
+//   .connect(CONNECTION_URL)
+//   .then(() =>
+//     app.listen(PORT, "0.0.0.0", () =>
+//       console.log(`Server running on port: ${PORT}`),
+//     ),
+//   )
+//   .catch((error) => console.log(error.message));
 
-// try {
-//   await mongoose.connect(process.env.CONNECTION_URL);
-//   app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port: ${PORT}`));
-// } catch (error) {
-//   console.log(error.message);
-// }
+try {
+  await mongoose.connect(process.env.CONNECTION_URL);
+  app.listen(PORT, "0.0.0.0", () =>
+    console.log(`Server running on port: ${PORT}`),
+  );
+} catch (error) {
+  console.log(error.message);
+}
 
 // mongoose.set("useFindAndModify", false);
 
