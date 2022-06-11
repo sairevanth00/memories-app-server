@@ -54,8 +54,6 @@ export const signup = async (req, res) => {
       expiresIn: "1h",
     });
 
-    console.log("token : ",token)
-
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });

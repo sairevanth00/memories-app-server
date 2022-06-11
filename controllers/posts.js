@@ -2,50 +2,59 @@ import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
 export const getPosts = async (req, res) => {
-  const { page } = req.query
+  const { page } = req.query;
   try {
     const LIMIT = 8;
-    const startIndex = ((Number(page)) - 1) * LIMIT // get the starting index of every page
+    const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
     const total = await PostMessage.countDocuments({});
-    const posts = await PostMessage.find().sort({_id: -1}).limit(LIMIT).skip(startIndex);
+    const posts = await PostMessage.find()
+      .sort({ _id: -1 })
+      .limit(LIMIT)
+      .skip(startIndex);
 
-    res.status(200).json({ data : posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
+    res
+      .status(200)
+      .json({
+        data: posts,
+        currentPage: Number(page),
+        numberOfPages: Math.ceil(total / LIMIT),
+      });
   } catch (error) {
-    console.log("error :",error)
     res.status(404).json({ message: error.message });
   }
 };
 
-// difference B/w query and params 
+// difference B/w query and params
 // QUERY -> /posts?page=1 -> page = 1 (preferable)
 // PARAMS -> /posts/123 -> id = 123
 
-export const getPostsBySearch = async (req,res) =>{
-  const { searchQuery, tags } = req.query
+export const getPostsBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
 
   try {
-    const title = new RegExp(searchQuery, 'i') //i stands for *ignore ex: test, Test, TEST (accepts)
-  
-    const posts = await PostMessage.find({ $or: [{title}, {tags: {$in: tags.split(',')}}]})
-    
-    console.log("posts :",posts);
+    const title = new RegExp(searchQuery, "i"); //i stands for *ignore ex: test, Test, TEST (accepts)
+
+    const posts = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+
     res.json({ data: posts });
   } catch (error) {
-    res.status(404).json({ message: error.message})
+    res.status(404).json({ message: error.message });
   }
-}
+};
 
-export const getPost = async (req, res)=>{
+export const getPost = async (req, res) => {
   const { id } = req.params;
 
-  try{
+  try {
     const post = await PostMessage.findById(id);
 
     res.status(200).json(post);
-  }catch(error){
+  } catch (error) {
     res.status(404).json({ message: error.message });
   }
-}
+};
 
 export const createPost = async (req, res) => {
   const post = req.body;
