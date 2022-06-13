@@ -5,9 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "worker": "node index.js",
-    "test": "node test.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
